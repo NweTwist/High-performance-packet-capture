@@ -346,6 +346,11 @@ class HighPerformanceCapture:
     def _raw_socket_capture(self):
         """Захват с использованием raw socket (только Linux)"""
         try:
+            import platform
+            if platform.system() == "Windows":
+                self.logger.warning("Raw socket захват не поддерживается на Windows, используйте Scapy")
+                return
+                
             # Создание raw socket
             sock = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))
             sock.settimeout(1.0)
